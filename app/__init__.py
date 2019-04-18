@@ -5,7 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=".env")
 
-DB_URI = os.environ["DATABASE_URI_LOCAL"]
+if "DOCKER" in os.environ:
+    DB_URI = os.environ["DATABASE_URI"]
+else:
+    DB_URI = os.environ["DATABASE_URI_LOCAL"]
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
