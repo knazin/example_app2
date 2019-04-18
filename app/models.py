@@ -21,6 +21,33 @@ class Ingredient(db.Model):
         self.unit = unit
         self.capacity = capacity
 
+    def to_dict(self):
+        return {
+            "ingredient_id": self.ingredient_id,
+            "ingredient_name": self.ingredient_name,
+            "unit": self.unit,
+            "capacity": self.capacity,
+        }
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(ingredient_name=name).first()
+	
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def check_depot(self, portion):
+        return True if self.capacity >= self.unit * int(portion) else False
+
+    def take_from_depot(self, portion):
+        self.capacity -= self.unit * int(portion)
+        db.session.commit()
+
+    def refill(self):
+        self.capacity = 1000
+        db.session.commit()
+
 
 class Recipe(db.Model):
     __tablename__ = "recipe"
@@ -37,6 +64,21 @@ class Recipe(db.Model):
         self.ingredients = ingredient_list
         self.portions = portions
 
+    def to_dict(self):
+        return {
+            "recipe_id": self.recipe_id,
+            "recipe_name": self.recipe_name,
+            "portions": self.portions,
+        }
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(recipe_name=name).first()
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
 
 class Order(db.Model):
     __tablename__ = "order"
@@ -50,3 +92,29 @@ class Order(db.Model):
     def __init__(self, recipe_name):
         self.date = datetime.datetime.now().isoformat()
         self.recipe_name = recipe_name
+    
+    def make_coffe(self):
+        # get recipe object of order
+        recipe = Recipe.find_by_name(self.recipe_name)
+        portions = recipe.portions.split(",")
+
+        # sort ingredients
+        sorted_ingredients = sorted(
+            [i for i in recipe.ingredients], key=lambda x: x.ingredient_id
+        )
+
+        # check ingredients of recipe in depots
+        for ing, port in zip(sorted_ingredients, portions):
+            good = ing.check_depot(port)
+            if not good:
+                return False
+
+        # get ingredients from depots
+        for ing, port in zip(sorted_ingredients, portions):
+            ing.take_from_depot(port)
+
+        # save to db
+        db.session.add(self)
+        db.session.commit()
+
+        return True
