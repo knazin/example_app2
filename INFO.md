@@ -29,27 +29,26 @@ It's separates action from the recipe itself.
 
 Firstly you should have docker on your computer. It is the only program you will need to run this application. No need to install Postgres or even Python(if you wanna to run tests / restart database -> Python should be installed).
 
-Simple command to run app
+### First Run
+or if it is something wrong with your local database or you wanna to restart app (clean data in database) you should:
+
 ```bash
 # clone repository
 $ git clone https://gitlab.polidea.com/hiring-tasks/kacper-knaz-python-coffee-machine.git  
-  
-# start application
-$ cd docker 
-$ docker-compose up -d  
-  
-# stop application
-$ docker-compose down
-```
+$ cd kacper-knaz-python-coffee-machine
 
-If it is something wrong with your local database or you wanna to restart app (clean data in database) you should:
+# make a directory for database
+$ mkdir database
 
-```bash
-# make sure that you shutdown your containers 
-$ docker-compose down
+# go to docker directory
+$ cd docker
+
+# make sure that you shutdown your containers - not for first run
+$ docker-compose down 
   
-# run only database container
+# run only database container 
 $ docker-compose up -d db
+# after that wait 10sec
   
 # run recreation command
 $ python3 -c "from app import recreate_db; recreate_db()"
@@ -60,6 +59,17 @@ $ python3 -c "from app import seed_db; seed_db()"
 # run the app
 $ docker-compose up -d --build flaskapp
 ```
+
+### To run app
+```bash  
+# start application
+$ cd docker 
+$ docker-compose up -d  
+  
+# stop application
+$ docker-compose down
+```
+
 
 
 ## How it works
@@ -80,3 +90,6 @@ To run tests you need to:
    ```
    pytest -s -v
    ```
+
+I know that tests may show a lot of warnings. But for now I dont know how to solve this.
+Despite that all tests passed successfully
