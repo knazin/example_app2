@@ -31,23 +31,8 @@ def test_client():
 
 @pytest.fixture(scope="module")
 def database():
-    # Create the database and the database table
-    # db.create_all()
+    yield db
 
-    # Insert user data
-    # ing = Ingredient('name2', 50, 1000)
-    # db.session.add(ing)
-
-    # rec = Recipe('recipe2', [ing], '1')
-    # db.session.add(rec)
-
-    # Commit the changes for the users
-    # db.session.commit()
-
-    yield db  # this is where the testing happens!
-
-    # db.drop_all()
-    
 
 @pytest.fixture(scope="module")
 def ingredient():

@@ -24,6 +24,7 @@ def index():
 
     return render_template("index.htm", dane=dane)
 
+
 @app.route("/coffe", methods=["POST"])
 def coffe():
     coffe_name = request.form["coffe"]

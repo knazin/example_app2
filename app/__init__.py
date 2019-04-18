@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 from dotenv import load_dotenv
+
 load_dotenv(dotenv_path=".env")
 
 if "DOCKER" in os.environ:
@@ -20,6 +21,7 @@ from app.models import Ingredient, Recipe, Order
 
 
 def recreate_db():
+    db.session.remove()
     db.reflect()
     db.drop_all()
     db.create_all()

@@ -3,13 +3,13 @@ from app import db
 
 subs = db.Table(
     "recipe_ingredient",
-    db.Column("recipe_id", db.Integer, db.ForeignKey("recipe.recipe_id")),
-    db.Column("ingredient_id", db.Integer, db.ForeignKey("ingredient.ingredient_id")),
+    db.Column("recipe_id", db.Integer, db.ForeignKey("recipes.recipe_id")),
+    db.Column("ingredient_id", db.Integer, db.ForeignKey("ingredients.ingredient_id")),
 )
 
 
 class Ingredient(db.Model):
-    __tablename__ = "ingredient"
+    __tablename__ = "ingredients"
 
     ingredient_id = db.Column(db.Integer, primary_key=True)
     ingredient_name = db.Column(db.String, unique=True)
@@ -32,7 +32,7 @@ class Ingredient(db.Model):
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(ingredient_name=name).first()
-	
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
@@ -50,7 +50,7 @@ class Ingredient(db.Model):
 
 
 class Recipe(db.Model):
-    __tablename__ = "recipe"
+    __tablename__ = "recipes"
 
     recipe_id = db.Column(db.Integer, primary_key=True)
     recipe_name = db.Column(db.String, unique=True)
@@ -81,18 +81,18 @@ class Recipe(db.Model):
 
 
 class Order(db.Model):
-    __tablename__ = "order"
+    __tablename__ = "orders"
 
     order_id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(26))
     recipe_name = db.Column(
-        db.String, db.ForeignKey("recipe.recipe_name"), nullable=False
+        db.String, db.ForeignKey("recipes.recipe_name"), nullable=False
     )
 
     def __init__(self, recipe_name):
         self.date = datetime.datetime.now().isoformat()
         self.recipe_name = recipe_name
-    
+
     def make_coffe(self):
         # get recipe object of order
         recipe = Recipe.find_by_name(self.recipe_name)

@@ -1,5 +1,6 @@
 venv
+coffe_machine_uml
 .vscode
-app/__pycache__
+.pytest_cache
 *__pycache__
-database
+app/__pycache__
