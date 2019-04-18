@@ -9,3 +9,15 @@ services:
       - "54320:5432"
     volumes:
       - ./../database:/var/lib/postgresql/data
+  app:
+    container_name: "my_app"
+    restart: always
+    build:
+      context: ./..
+      dockerfile: ./docker/dockerfile
+    env_file:
+      - ./../.env
+    ports: 
+      - "5050:5000"
+    depends_on:
+      - db
