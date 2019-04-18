@@ -23,3 +23,28 @@ def index():
         dane["photo"] = request.args["photo"]
 
     return render_template("index.htm", dane=dane)
+
+@app.route("/coffe", methods=["POST"])
+def coffe():
+    coffe_name = request.form["coffe"]
+
+    order = Order(coffe_name)
+    done = order.make_coffe()
+
+    if done:
+        message = "Enjoy your {}".format(coffe_name)
+        photo = coffe_name + ".jpg"
+    else:
+        message = "Refill ingredients to make coffe"
+        photo = ""
+
+    return redirect(url_for("index", message=message, photo=photo))
+
+
+@app.route("/refill", methods=["POST"])
+def refill():
+
+    # refill all Ingredients
+    [i.refill() for i in Ingredient.query.all()]
+
+    return redirect(url_for("index", message="Refilled all Ingredients"))
