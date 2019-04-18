@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Coffe Machine</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- styles -->
+    <link rel="stylesheet" href="../static/css/index.css">
+    <style>
+        .coffemachine {
+            background-image: url('../static/img/cm.jpg');
+        }
+    </style>
+
+    <!-- scripts -->
+    <script>let dane = JSON.parse('{{ dane | tojson }}');</script>
+    <script src="../static/js/index.js"></script>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="coffemachine">
+
+            <div class="recipes">
+                <div class="menu">
+                        <div id="coffe" class="row coffe"></div>
+                </div>
+            </div>
+
+            <div class="row down">
+                <div class="lr"></div>
+
+                <div class="md">
+                    <div id="blank" class="row"></div>
+
+                    <!-- Information panel -->
+                    <div id="information" class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div id="message"></div>
+                            </div>
+                            <div class="row">
+                                <div id="form">
+                                    <form action="/coffe" method="post">
+                                        <input id="drink" type="hidden" name="coffe" value="">
+                                        <input id="submit" type="hidden" value="Make">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Photo of the coffe -->
+                    <div id="photo" class="row">
+                        <img style="height: 180px; width: 200px" id="imgClickAndChange" />
+                    </div>
+
+                    <!-- Refill Button -->
+                    <div id="refill">
+                        <form action="/refill" method="post">
+                            <input src="" alt="coffe" id="refill-button" type="submit" value="Refill Ingredients">
+                        </form>
+                    </div>
+                </div>
+
+                <!-- List of ingredients -->
+                <div class="lr">
+                    <ul id="ingredient-list" class="list-group"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
