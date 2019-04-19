@@ -53,17 +53,17 @@ def seed_db():
 
     # Add Recipes
 
-    espresso = Recipe("espresso", [water, coffe], "1,1")
+    espresso = Recipe("espresso", [water, coffe], '{"water": 1, "coffe": 1}')
     espresso.save_to_db()
 
-    americana = Recipe("americana", [water, coffe], "2,1")
+    americana = Recipe("americana", [water, coffe], '{"water": 2, "coffe": 1}')
     americana.save_to_db()
 
-    cappuccino = Recipe("cappuccino", [water, milk, foamed_milk, coffe], "1,1,1,1")
+    cappuccino = Recipe("cappuccino", [water, milk, foamed_milk, coffe], '{"water": 1, "coffe": 1, "milk": 1, "foamed_milk": 1}')
     cappuccino.save_to_db()
 
-    latte = Recipe("latte", [water, milk, coffe], "1,2,1")
+    latte = Recipe("latte", [water, milk, coffe], '{"water": 1, "coffe": 1, "milk": 2}')
     latte.save_to_db()
 
-    mokka = Recipe("mokka", [water, coffe, chocolade, whipped_cream], "1,1,1,1")
+    mokka = Recipe("mokka", [water, coffe, chocolade, whipped_cream], '{"water": 1, "coffe": 1, "chocolade": 1, "whipped_cream": 1}')
     mokka.save_to_db()

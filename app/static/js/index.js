@@ -5,7 +5,7 @@ window.onload = function() {
 }
 
 function ShowRecipes() {
-    let recipes = dane.recipes
+    let recipes = data.recipes
 
     recipes.forEach(v => {
         let div = document.createElement('div')
@@ -29,7 +29,7 @@ function ShowRecipes() {
 }
 
 function ShowDepots() {
-    let ingredients = dane.ingredients
+    let ingredients = data.ingredients
 
     ingredients.forEach(v => {
         let div = document.createElement('li')
@@ -41,7 +41,7 @@ function ShowDepots() {
 }
 
 function ShowCoffe() {
-    let photopath = dane.photo
+    let photopath = data.photo
     let img = document.getElementById("imgClickAndChange")
     
     if (photopath != '../static/img/') {
@@ -51,5 +51,5 @@ function ShowCoffe() {
         img.style.visibility = 'hidden'
     }
 
-    document.getElementById('message').innerHTML = dane.message
+    document.getElementById('message').innerHTML = data.message
 }

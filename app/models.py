@@ -1,3 +1,4 @@
+import json
 import datetime
 from app import db
 
@@ -38,7 +39,7 @@ class Ingredient(db.Model):
         db.session.commit()
 
     def check_depot(self, portion):
-        return True if self.capacity >= self.unit * int(portion) else False
+        return self.capacity >= (self.unit * int(portion))
 
     def take_from_depot(self, portion):
         self.capacity -= self.unit * int(portion)
@@ -68,7 +69,6 @@ class Recipe(db.Model):
         return {
             "recipe_id": self.recipe_id,
             "recipe_name": self.recipe_name,
-            "portions": self.portions,
         }
 
     @classmethod
@@ -96,22 +96,16 @@ class Order(db.Model):
     def make_coffe(self):
         # get recipe object of order
         recipe = Recipe.find_by_name(self.recipe_name)
-        portions = recipe.portions.split(",")
-
-        # sort ingredients
-        sorted_ingredients = sorted(
-            [i for i in recipe.ingredients], key=lambda x: x.ingredient_id
-        )
+        portions = json.loads(recipe.portions)
 
         # check ingredients of recipe in depots
-        for ing, port in zip(sorted_ingredients, portions):
-            good = ing.check_depot(port)
-            if not good:
+        for ing in recipe.ingredients:
+            if not ing.check_depot(portions[ing.ingredient_name]):
                 return False
 
         # get ingredients from depots
-        for ing, port in zip(sorted_ingredients, portions):
-            ing.take_from_depot(port)
+        for ing in recipe.ingredients:
+            ing.take_from_depot(portions[ing.ingredient_name])
 
         # save to db
         db.session.add(self)

@@ -6,7 +6,7 @@ from app.models import Recipe, Ingredient, Order
 @app.route("/")
 def index():
     # prepare data for html template
-    dane = {
+    data = {
         "recipes": [r.to_dict() for r in Recipe.query.all()],
         "ingredients": [
             i.to_dict()
@@ -18,11 +18,11 @@ def index():
 
     # parse passed args - GUI
     if "message" in request.args:
-        dane["message"] = request.args["message"]
+        data["message"] = request.args["message"]
     if "photo" in request.args:
-        dane["photo"] = request.args["photo"]
+        data["photo"] = request.args["photo"]
 
-    return render_template("index.htm", dane=dane)
+    return render_template("index.htm", data=data)
 
 
 @app.route("/coffe", methods=["POST"])
